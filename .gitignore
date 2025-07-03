@@ -1,0 +1,71 @@
+# Arquivo .gitignore central para o projeto FinTrack
+
+# Logs e arquivos de runtime
+# ---------------------------
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Variáveis de Ambiente
+# NUNCA comite arquivos .env! Eles contêm segredos.
+# ---------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependências
+# A pasta mais importante a ser ignorada.
+# ---------------------------
+node_modules/
+jspm_packages/
+web_modules/
+
+# Arquivos de Build e Produção
+# Gerados pelos processos de build do frontend e backend.
+# ---------------------------
+build/
+dist/
+.next/
+.nuxt/
+.out/
+
+# Específico de Ferramentas e Sistema Operacional
+# ---------------------------
+.DS_Store
+Thumbs.db
+.history
+
+# Específico de IDEs e Editores
+# ---------------------------
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Arquivos de Teste
+# ---------------------------
+coverage/
+.nyc_output/
+
+# Cache de ferramentas
+# ---------------------------
+.eslintcache
+.stylelintcache
+.prettiercache
+.cache/
+
+# Arquivos de pacotes compactados
+# ---------------------------
+*.zip
+*.tar
+*.gz
+*.rar
