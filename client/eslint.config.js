@@ -1,29 +1,68 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginReactRefresh from "eslint-plugin-react-refresh";
+import pluginPrettier from "eslint-plugin-prettier";
+import configPrettier from "eslint-config-prettier";
+import pluginStyledComponentsA11y from "eslint-plugin-styled-components-a11y";
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default [
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+    ignores: ["dist", "node_modules"],
+  },
+  pluginJs.configs.recommended,
+  {
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    ...pluginReactConfig,
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+      ...pluginReactConfig.languageOptions,
+      globals: {
+        ...globals.browser,
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-vars": "error",
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
     },
   },
-])
+  {
+    plugins: {
+      "react-hooks": pluginReactHooks,
+    },
+    rules: pluginReactHooks.configs.recommended.rules,
+  },
+  {
+    plugins: {
+      "react-refresh": pluginReactRefresh,
+    },
+    rules: {
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
+    },
+  },
+  {
+    plugins: {
+      "styled-components-a11y": pluginStyledComponentsA11y,
+    },
+    rules: pluginStyledComponentsA11y.configs.recommended.rules,
+  },
+  {
+    plugins: {
+      prettier: pluginPrettier,
+    },
+    rules: {
+      ...configPrettier.rules,
+      "prettier/prettier": "error",
+      "arrow-body-style": "off",
+      "prefer-arrow-callback": "off",
+    },
+  },
+];
