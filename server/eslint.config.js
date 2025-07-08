@@ -20,7 +20,13 @@ export default [
       'no-console': 'warn',
       'no-unused-vars': [
         'warn',
-        { vars: 'all', args: 'after-used', ignoreRestSiblings: true },
+        {
+          vars: 'all',
+          args: 'after-used',
+          ignoreRestSiblings: true,
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_',
+        },
       ],
       'prefer-const': 'error',
     },
