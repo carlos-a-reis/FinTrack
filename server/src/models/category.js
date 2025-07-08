@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       Category.belongsTo(models.User, {
         foreignKey: 'user_id',
         as: 'user',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       });
     }
   }
