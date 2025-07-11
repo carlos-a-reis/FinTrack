@@ -1,7 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+const Category = (sequelize, DataTypes) => {
   class Category extends Model {
     static associate(models) {
       Category.hasMany(models.Limit, {
@@ -49,3 +49,5 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Category;
 };
+
+export default Category;

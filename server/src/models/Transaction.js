@@ -1,7 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+const Transaction = (sequelize, DataTypes) => {
   class Transaction extends Model {
     static associate(models) {
       Transaction.belongsTo(models.User, {
@@ -52,3 +52,5 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Transaction;
 };
+
+export default Transaction;

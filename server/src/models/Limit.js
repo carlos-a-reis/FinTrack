@@ -1,7 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+const Limit = (sequelize, DataTypes) => {
   class Limit extends Model {
     static associate(models) {
       Limit.belongsTo(models.User, {
@@ -43,3 +43,5 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Limit;
 };
+
+export default Limit;
