@@ -1,5 +1,6 @@
 import db from '../models/index.js';
 import bcrypt from 'bcrypt';
+import sendEmail from '../utilities/sendEmail.js';
 
 const User = db.User;
 
@@ -8,6 +9,8 @@ const register = async (userData) => {
   userData.password = encryptedPass;
 
   const newUser = await User.create(userData);
+
+  sendEmail(userData.email);
 
   return newUser;
 };
