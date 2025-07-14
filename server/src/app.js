@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
+import usersRoutes from './routes/userRoutes.js';
+
 const app = express();
 
 app.use(cors());
@@ -12,6 +14,8 @@ app.get('/', (_req, res) => {
     message: 'API funcionando',
   });
 });
+
+app.use('/users', usersRoutes);
 
 app.use((_req, _res, next) => {
   const error = new Error('Rota não encontrada');
