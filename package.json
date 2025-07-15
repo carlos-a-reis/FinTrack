@@ -12,5 +12,8 @@
   "license": "ISC",
   "workspaces": [
     "apps/*"
-  ]
+  ],
+  "dependencies": {
+    "joi": "^17.13.3"
+  }
 }
