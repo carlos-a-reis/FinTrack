@@ -4,15 +4,20 @@ import sendEmail from '../utilities/sendEmail.js';
 
 const User = db.User;
 
-const register = async (userData) => {
+const registerUser = async (userData) => {
   const encryptedPass = await bcrypt.hash(userData.password, 12);
-  userData.password = encryptedPass;
 
-  const newUser = await User.create(userData);
+  const newUser = await User.create({
+    name: userData.name,
+    email: userData.email,
+    password: encryptedPass,
+  });
 
-  sendEmail(userData.email);
+  delete newUser.dataValues.password;
+
+  sendEmail({ id: newUser.id, name: newUser.name, email: newUser.email });
 
   return newUser;
 };
 
-export default { register };
+export default { registerUser };

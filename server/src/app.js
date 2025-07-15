@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import usersRoutes from './routes/userRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.get('/', (_req, res) => {
   });
 });
 
-app.use('/users', usersRoutes);
+app.use('/users', userRoutes);
 
 app.use((_req, _res, next) => {
   const error = new Error('Rota não encontrada');

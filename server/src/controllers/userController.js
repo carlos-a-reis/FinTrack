@@ -1,9 +1,9 @@
-import usersService from '../services/userService.js';
+import userService from '../services/userService.js';
 
 const registerUser = async (req, res) => {
   const userData = req.body;
 
-  const newUser = await usersService.register(userData);
+  const newUser = await userService.registerUser(userData);
 
   res.status(201).json(newUser);
 };
