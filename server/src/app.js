@@ -24,9 +24,14 @@ app.use((_req, _res, next) => {
 });
 
 app.use((error, _req, res, _next) => {
-  res.status(error.status || 500).json({
-    message: error.message || 'Erro interno do servidor',
-  });
+  const message = error.message || 'Erro interno do servidor';
+  const responseBody = { message };
+
+  if (error.details) {
+    responseBody.details = error.details;
+  }
+
+  res.status(error.status || 500).json(responseBody);
 });
 
 export default app;
