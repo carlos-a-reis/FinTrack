@@ -16,19 +16,34 @@ const registerUser = async (userData) => {
     throw new Error('E-mail já cadastrado.');
   }
 
-  const encryptedPass = await bcrypt.hash(userData.password, 12);
+  const transaction = await db.sequelize.transaction();
 
-  const newUser = await User.create({
-    name: userData.name,
-    email: userData.email,
-    password: encryptedPass,
-  });
+  try {
+    const encryptedPass = await bcrypt.hash(userData.password, 12);
 
-  delete newUser.dataValues.password;
+    const newUser = await User.create(
+      {
+        name: userData.name,
+        email: userData.email,
+        password: encryptedPass,
+      },
+      { transaction },
+    );
 
-  sendEmail({ id: newUser.id, name: newUser.name, email: newUser.email });
+    delete newUser.dataValues.password;
 
-  return newUser;
+    await sendEmail({
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+    });
+
+    await transaction.commit();
+    return newUser;
+  } catch (error) {
+    await transaction.rollback();
+    throw new Error(error.message);
+  }
 };
 
 export default { registerUser };

@@ -7,7 +7,7 @@ const createToken = (userData) => {
   const payload = { ...userData };
 
   const token = jwt.sign(payload, JWT_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '1d',
     algorithm: 'HS256',
   });
 

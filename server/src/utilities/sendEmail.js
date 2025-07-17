@@ -1,24 +1,33 @@
 import 'dotenv/config';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import auth from './auth.js';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const user = process.env.SMTP_USER;
+const pass = process.env.SMTP_PASSWORD;
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user,
+    pass,
+  },
+});
 
 const sendEmail = async (userData) => {
   const token = auth.createToken(userData);
 
-  const { data, error } = await resend.emails.send({
-    from: 'FinTrack <noreplay@resend.dev>',
-    to: [userData.email],
+  const { err, _info } = await transporter.sendMail({
+    from: `FinTrack <${user}>`,
+    to: userData.email,
     subject: 'Validação de conta FinTrack',
     html: `<strong>It works!</strong></br><a>${token}<a>`,
   });
 
-  if (error) {
-    return console.error({ error });
+  if (err) {
+    throw new Error(err);
   }
-
-  console.log({ data });
 };
 
 export default sendEmail;
