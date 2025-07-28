@@ -14,4 +14,14 @@ const createToken = (userData) => {
   return token;
 };
 
-export default { createToken };
+const verifyToken = (token) => {
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err && err.message === 'jwt expired') {
+      throw new Error('Token expirado.');
+    }
+
+    return decoded;
+  });
+};
+
+export default { createToken, verifyToken };

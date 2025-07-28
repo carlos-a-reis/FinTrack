@@ -1,6 +1,7 @@
 import db from '../models/index.js';
 import bcrypt from 'bcrypt';
 import sendEmail from '../utilities/sendEmail.js';
+import auth from '../utilities/auth.js';
 
 const User = db.User;
 
@@ -46,4 +47,21 @@ const registerUser = async (userData) => {
   }
 };
 
-export default { registerUser };
+const verifyUser = async (token) => {
+  try {
+    const user = auth.verifyToken(token);
+
+    const verifiedUser = await User.update(
+      { is_verified: true },
+      { where: { id: user.id } },
+    );
+
+    if (!verifiedUser[0]) {
+      throw new Error('Usuário não identificado.');
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export default { registerUser, verifyUser };

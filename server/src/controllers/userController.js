@@ -28,4 +28,22 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-export default { registerUser };
+const verifyUser = async (req, res, next) => {
+  const token = req.query.token;
+
+  try {
+    await userService.verifyUser(token);
+
+    res.status(200).json({ message: 'Validação realizada com sucesso.' });
+  } catch (error) {
+    if (error.message === 'Usuário não identificado.') {
+      error.status = 400;
+    } else {
+      error.status = 401;
+    }
+
+    next(error);
+  }
+};
+
+export default { registerUser, verifyUser };
